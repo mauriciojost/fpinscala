@@ -36,21 +36,18 @@ object MyModule {
 
   // Exercise 1: Write a function to compute the nth fibonacci number
 
-  def fib(indexTarget: Int): Int = {
+  def fib(index: Int): Int = {
 
-    def subFib(index: Int, previousAcum: Int, currentAcum: Int): Int = {
-      if (index < indexTarget) {
-        subFib(index = index + 1, previousAcum = currentAcum, currentAcum = previousAcum + currentAcum)
+    @annotation.tailrec
+    def subFib(i: Int, previousAcum: Int, currentAcum: Int): Int = {
+      if (i < index) {
+        subFib(i = i + 1, previousAcum = currentAcum, currentAcum = previousAcum + currentAcum)
       } else {
-        previousAcum + currentAcum
+        previousAcum
       }
     }
 
-    if (indexTarget < 2) {
-      indexTarget
-    } else {
-      subFib(index = 2, previousAcum = 0, currentAcum = 1)
-    }
+    subFib(i = 0, previousAcum = 0, currentAcum = 1)
 
   }
 
