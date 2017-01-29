@@ -39,23 +39,18 @@ object MyModule {
   def fib(indexTarget: Int): Int = {
 
     def subFib(index: Int, previousAcum: Int, currentAcum: Int): Int = {
-      println(s"index $index previousAcum $previousAcum currentAcum $currentAcum")
-
-      if (indexTarget == 0) {
-        0
-      } else if (indexTarget == 1) {
-        1
-      } else if (index < indexTarget) {
+      if (index < indexTarget) {
         subFib(index = index + 1, previousAcum = currentAcum, currentAcum = previousAcum + currentAcum)
-      } else if (index == indexTarget) {
-        println("\n")
-        previousAcum + currentAcum
       } else {
-        throw new RuntimeException(s"Unexpected current $index > target $indexTarget")
+        previousAcum + currentAcum
       }
     }
 
-    subFib(index = 2, previousAcum = 0, currentAcum = 1)
+    if (indexTarget < 2) {
+      indexTarget
+    } else {
+      subFib(index = 2, previousAcum = 0, currentAcum = 1)
+    }
 
   }
 
