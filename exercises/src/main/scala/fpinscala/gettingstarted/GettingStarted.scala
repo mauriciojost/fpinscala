@@ -133,6 +133,16 @@ object MonomorphicBinarySearch {
 
 object PolymorphicFunctions {
 
+  def main(str: Array[String]) = {
+    def gt(a: Int, b: Int): Boolean = a > b
+    println("" + isSorted(Array(1, 2), gt))
+    println("" + isSorted(Array(1, 2, 3, 4, 5), gt))
+    println("" + isSorted(Array(1, 2, 3, 0, 5), gt))
+    println("" + isSortedTailRec(Array(1, 2), gt))
+    println("" + isSortedTailRec(Array(1, 2, 3, 4, 5), gt))
+    println("" + isSortedTailRec(Array(1, 2, 3, 0, 5), gt))
+  }
+
   // Here's a polymorphic version of `binarySearch`, parameterized on
   // a function for testing whether an `A` is greater than another `A`.
   def binarySearch[A](as: Array[A], key: A, gt: (A,A) => Boolean): Int = {
@@ -153,7 +163,30 @@ object PolymorphicFunctions {
 
   // Exercise 2: Implement a polymorphic function to check whether
   // an `Array[A]` is sorted
-  def isSorted[A](as: Array[A], gt: (A,A) => Boolean): Boolean = ???
+  def isSorted[A](as: Array[A], gt: (A,A) => Boolean): Boolean = {
+    var i = 0
+    for(i <- 0 to (as.length - 2)){
+      if (!gt(as(i + 1), as(i))) {
+        return false
+      }
+    }
+    return true
+  }
+
+  def isSortedTailRec[A](as: Array[A], gt: (A,A) => Boolean): Boolean = {
+    def isGtRec(index: Int): Boolean = {
+      if (index < as.length - 1) {
+        if (gt(as(index + 1), as(index))) {
+          isGtRec(index + 1)
+        } else {
+          false
+        }
+      } else {
+        true
+      }
+    }
+    isGtRec(0)
+  }
 
   // Polymorphic functions are often so constrained by their type
   // that they only have one implementation! Here's an example:
