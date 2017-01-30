@@ -174,15 +174,14 @@ object PolymorphicFunctions {
   }
 
   def isSortedTailRec[A](as: Array[A], gt: (A,A) => Boolean): Boolean = {
+    @annotation.tailrec
     def isGtRec(index: Int): Boolean = {
-      if (index < as.length - 1) {
-        if (gt(as(index + 1), as(index))) {
-          isGtRec(index + 1)
-        } else {
-          false
-        }
-      } else {
+      if (index >= as.length - 1) {
         true
+      } else if (gt(as(index + 1), as(index))) {
+          isGtRec(index + 1)
+      } else {
+        false
       }
     }
     isGtRec(0)
