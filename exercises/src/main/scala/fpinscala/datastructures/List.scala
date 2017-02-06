@@ -61,7 +61,14 @@ object List { // `List` companion object. Contains functions for creating and wo
     Cons(h, tail(l))
   }
 
-  def drop[A](l: List[A], n: Int): List[A] = ???
+  def drop[A](l: List[A], n: Int): List[A] = {
+    (l, n) match {
+      case (_, n) if n < 0 =>  throw new IllegalArgumentException("Cannot drop a negative value")
+      case (_, 0) => l
+      case (Nil, _) => throw new IllegalStateException("Cannot drop on Nil")
+      case (Cons(x, xs), n) => drop(xs, n-1)
+    }
+  }
 
   def dropWhile[A](l: List[A], f: A => Boolean): List[A] = ???
 
