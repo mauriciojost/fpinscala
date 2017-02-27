@@ -93,6 +93,18 @@ object List { // `List` companion object. Contains functions for creating and wo
     foldRight(l, 0)((a: A, b: Int) => 1 + b)
   }
 
+  def lengthFoldLeft[A](l: List[A]): Int = {
+    foldLeft(l, 0)((b: Int, a: A) => 1 + b)
+  }
+
+  def productFoldLeft(l: List[Double]): Double = {
+    foldLeft(l, 1.0)((a: Double, b: Double) => a * b)
+  }
+
+  def sumFoldLeft[A](l: List[Int]): Int = {
+    foldLeft(l, 0)((a: Int, b: Int) => a + b)
+  }
+
   @annotation.tailrec
   def foldLeft[A,B](l: List[A], z: B)(f: (B, A) => B): B = {
     l match {
