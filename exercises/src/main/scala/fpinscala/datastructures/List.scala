@@ -128,5 +128,7 @@ object List { // `List` companion object. Contains functions for creating and wo
     foldLeft(reverse(as), z)((a, b) => f(b, a))
   }
 
-  def map[A,B](l: List[A])(f: A => B): List[B] = ???
+  def mapAddOne(l: List[Int]): List[Int] = {
+    foldRightUsingFoldLeft(l, Nil: List[Int])((a: Int, b: List[Int]) => Cons(a + 1, b))
+  }
 }
