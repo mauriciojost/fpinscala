@@ -28,4 +28,11 @@ object Tree {
     }
   }
 
+  def map[A, B](t: Tree[A])(f: A => B): Tree[B] = {
+    t match {
+      case Leaf(a) => Leaf(f(a))
+      case Branch(a, b) => Branch(map(a)(f), map(b)(f))
+    }
+  }
+
 }
