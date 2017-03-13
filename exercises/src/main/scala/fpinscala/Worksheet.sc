@@ -27,7 +27,29 @@ flatMap(List(1,2,3))(a => List(a, a))
 filterUsingFlatMap(List(-2,-1,0,1,2,3))((a: Int) => a>=0)
 List.zipWith(List(1, 2, 3), List(1, 2, 3))((a: Int, b:Int) => a * b)
 
-val tree1 = Branch(Leaf(1), Branch(Leaf(2), Leaf(9)))
+val tree1 = Branch(
+  Leaf(1),
+  Branch(Leaf(2), Leaf(9))
+)
+val tree2 = Branch(
+  Leaf(2),
+  Branch(
+    Leaf(5),
+    Branch(
+      Leaf(1),
+      Branch(
+        Leaf(2),
+        Leaf(55)
+      )
+    )
+  )
+)
 size(tree1)
+size(tree2)
 max(tree1)
+max(tree2)
+depth(Leaf(1)) // 1
+depth(Branch(Leaf(1), Leaf(2))) // 2
+depth(Branch(Leaf(1), Branch(Leaf(2), Leaf(3)))) // 3
+depth(Branch(Leaf(1), Branch(Leaf(2), Branch(Leaf(3), Leaf(4))))) // 4
 
