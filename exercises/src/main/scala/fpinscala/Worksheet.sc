@@ -27,4 +27,7 @@ flatMap(List(1,2,3))(a => List(a, a))
 filterUsingFlatMap(List(-2,-1,0,1,2,3))((a: Int) => a>=0)
 List.zipWith(List(1, 2, 3), List(1, 2, 3))((a: Int, b:Int) => a * b)
 
-size(Branch(Leaf(1), Branch(Leaf(2), Leaf(3))))
+val tree1 = Branch(Leaf(1), Branch(Leaf(2), Leaf(9)))
+size(tree1)
+max(tree1)
+
