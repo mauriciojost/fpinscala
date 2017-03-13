@@ -146,4 +146,14 @@ object List { // `List` companion object. Contains functions for creating and wo
     flatMap(as) (i => if (f(i)) List(i) else Nil)
   }
 
+  def zipWith[A](a: List[A], b: List[A])(f: (A, A) => A): List[A] = {
+    if (length(a) != length(b)) {
+      throw new IllegalArgumentException("Lists must have the same length")
+    }
+    (a, b) match {
+      case (Nil, Nil) => Nil
+      case (Cons(a1, ax), Cons(b1, bx)) => Cons(f(a1, b1), zipWith(ax, bx)(f))
+    }
+  }
+
 }
