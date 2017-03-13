@@ -140,4 +140,6 @@ object List { // `List` companion object. Contains functions for creating and wo
     foldRight(l, Nil:List[A])((i: A, init: List[A]) => if (f(i)) Cons(i, init) else init)
   }
 
+  def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] = flatten(map(as)(f))
+
 }
