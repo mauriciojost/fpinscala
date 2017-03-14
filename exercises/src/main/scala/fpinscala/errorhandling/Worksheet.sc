@@ -13,3 +13,5 @@ some.flatMap(a => Some(a + 1))
 some.filter(a => a < 0)
 some.filter(a => a > 0)
 
+Option.variance(Seq(-1, 1))
+
