@@ -15,3 +15,4 @@ some.filter(a => a > 0)
 
 Option.variance(Seq(-1, 1))
 
+Option.map2(Some(1), Some(2))(_ + _)
