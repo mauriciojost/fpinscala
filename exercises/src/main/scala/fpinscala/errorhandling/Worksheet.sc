@@ -16,3 +16,10 @@ some.filter(a => a > 0)
 Option.variance(Seq(-1, 1))
 
 Option.map2(Some(1), Some(2))(_ + _)
+
+Option.sequence(List(Some(1), Some(1)))
+Option.sequence(List(Some(1), Some(1), None))
+Option.sequence(List(Some(1), None, None))
+Option.sequence(List(None, Some(1), Some(1)))
+Option.sequence(List(None))
+Option.sequence(List(Some(1)))
