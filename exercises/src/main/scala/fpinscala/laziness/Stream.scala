@@ -39,7 +39,23 @@ trait Stream[+A] {
   // 5.7 map, filter, append, flatmap using foldRight. Part of the exercise is
   // writing your own function signatures.
 
+  def map[B](f: A => B) = foldRight(Empty: Stream[B])((x, xs) => cons(f(x), xs))
+
+  def filter(f: A => Boolean): Stream[A] = foldRight(Empty: Stream[A])( (x, xs) => if (f(x: A)) cons[A](x, xs) else xs )
+
+  def append[B >: A](other: Stream[B]): Stream[B] = foldRight(other)((x, xs) => cons(x, xs)) // can only make a Stream of an upper type to avoid assigning Cats to Dogs
+
   def startsWith[B](s: Stream[B]): Boolean = ???
+
+  def mapWithUnfold[B](f: A => B): Stream[B] = {
+    unfold[B, Stream[A]](this)(s =>
+      s match {
+        case Cons(h, t) => Some((f(h()), t()))
+        case Empty => None
+      }
+    )
+  }
+  }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
@@ -60,5 +76,10 @@ object Stream {
   val ones: Stream[Int] = Stream.cons(1, ones)
   def from(n: Int): Stream[Int] = ???
 
-  def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = ???
+  def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = { // create a Stream from a seed and a function taking previous seed
+    f(z) match {
+      case Some((a, s)) => cons[A](a, unfold(s)(f))
+      case None => Empty
+    }
+  }
 }
