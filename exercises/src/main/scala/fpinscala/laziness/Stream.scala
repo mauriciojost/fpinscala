@@ -45,7 +45,12 @@ trait Stream[+A] {
 
   def append[B >: A](other: Stream[B]): Stream[B] = foldRight(other)((x, xs) => cons(x, xs)) // can only make a Stream of an upper type to avoid assigning Cats to Dogs
 
-  def startsWith[B](s: Stream[B]): Boolean = ???
+  def startsWith[B](s: Stream[B]): Boolean = {
+    (this, s) match {
+      case (Cons(h1, t1), Cons(h2, t2)) => (h1() == h2()) && t1().startsWith(t2())
+      case (_, Empty) => true
+    }
+  }
 
   def mapWithUnfold[B](f: A => B): Stream[B] = {
     unfold[B, Stream[A]](this)(s =>
@@ -92,6 +97,23 @@ trait Stream[+A] {
     )
   }
 
+  def takeWhileFR(p: A => Boolean): Stream[A] = {
+    this.foldRight[Stream[A]](Empty: Stream[A]){
+      (x, xs) => if (p(x)) cons(x, xs) else Empty: Stream[A]
+    }
+  }
+
+  import fpinscala.datastructures.{List, Nil, Cons => ListCons}
+
+  def toList: List[A] = {
+    this match {
+      case Empty => Nil
+      case Cons(h, t) => ListCons(h(), t().toList)
+    }
+  }
+
+  def toList2: List[A] = foldRight(Nil: List[A])((x, xs) => ListCons(x, xs))
+
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
@@ -106,10 +128,11 @@ object Stream {
   def empty[A]: Stream[A] = Empty
 
   def apply[A](as: A*): Stream[A] =
-    if (as.isEmpty) empty 
+    if (as.isEmpty) empty
     else cons(as.head, apply(as.tail: _*))
 
   val ones: Stream[Int] = Stream.cons(1, ones)
+
   def from(n: Int): Stream[Int] = ???
 
   def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = { // create a Stream from a seed and a function taking previous seed
