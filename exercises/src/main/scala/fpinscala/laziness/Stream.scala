@@ -55,7 +55,43 @@ trait Stream[+A] {
       }
     )
   }
+
+  def takeWithUnfold(n: Int): Stream[A] = {
+    unfold[A, (Stream[A], Int)]((this, n))(s =>
+      s match {
+        case (Cons(h, t), n) if n > 0 => Some((h(), (t(), n - 1)))
+        case _ => None
+      }
+    )
   }
+
+  def takeWhileWithUnfold(f: A => Boolean): Stream[A] = {
+    unfold[A, Stream[A]](this)(s =>
+      s match {
+        case Cons(h, t) if f(h()) => Some((h(), t()))
+        case _ => None
+      }
+    )
+  }
+
+  def zipWithUsingUnfold[B](other: Stream[B]): Stream[(A, B)] = {
+    unfold[(A, B), (Stream[A], Stream[B])]((this, other))(s =>
+      s match {
+        case (Cons(h1, t1), Cons(h2, t2)) => Some(((h1(), h2()), (t1(), t2())))
+        case _ => None
+      }
+    )
+  }
+
+  def tails: Stream[Stream[A]] = {
+    unfold[Stream[A], Stream[A]](this)(state =>
+      state match {
+        case s @ Cons(v, rest) => Some(s, rest())
+        case _ => None
+      }
+    )
+  }
+
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
