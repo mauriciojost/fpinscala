@@ -8,6 +8,8 @@ def inc(i: Int) = i + 1
 val takeAmnt = 10
 ("To list: " + st.toList)
 ("To list2: " + st.toList2)
+("Starts with  : " + Stream(1,2,3).startsWith(Stream(1, 2)))
+("Starts with  : " + Stream(1,2,3).startsWith(Stream(3, 2)))
 ("Take while minor than 3: " + st.takeWhileFR(_ < 3).toList)
 (s"Take $takeAmnt: " + st.take(takeAmnt).toList)
 ("Incr by one: " + st.map(_ + 1).toList)
