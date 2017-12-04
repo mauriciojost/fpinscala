@@ -153,6 +153,7 @@ object List { // `List` companion object. Contains functions for creating and wo
     (a, b) match {
       case (Nil, Nil) => Nil
       case (Cons(a1, ax), Cons(b1, bx)) => Cons(f(a1, b1), zipWith(ax, bx)(f))
+      case (_, _) => Nil
     }
   }
 
